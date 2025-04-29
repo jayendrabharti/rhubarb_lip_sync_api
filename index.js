@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { GenerateLipSync } from './rhubarb/GenerateLipSync.js';
+import { GenerateLipSyncLinux } from './rhubarb-linux/GenerateLipSync.js';
+import { GenerateLipSyncWindows } from './rhubarb-windows/GenerateLipSync.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -28,7 +29,13 @@ app.post('/getlipsync', async (req, res) => {
 
     try {
         console.log("genrating...");
-        const data = await GenerateLipSync(audioBase64);
+        const system = process.env.SYSTEM;
+        let data;
+        if(system == "windows"){    
+            data =await GenerateLipSyncWindows(audioBase64);
+        } else{
+            data =await GenerateLipSyncLinux(audioBase64);
+        }
         console.log(data);
         res.send(JSON.stringify(data));
     } catch (error) {

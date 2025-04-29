@@ -7,14 +7,10 @@ import { fileURLToPath } from 'url';
 
 const app = express();
 
-// Enable CORS for all requests
 app.use(cors());
 
-// Get the current directory name
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-app.use(express.json({ limit: '50mb' })); // To parse JSON bodies with a larger limit
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'homepage.html'));

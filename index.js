@@ -4,6 +4,8 @@ import { GenerateLipSyncLinux } from './rhubarb-linux/GenerateLipSync.js';
 import { GenerateLipSyncWindows } from './rhubarb-windows/GenerateLipSync.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+dotenv.config({ path: path.join(process.cwd(), '.env') });
 
 const app = express();
 
@@ -11,6 +13,9 @@ app.use(cors());
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'homepage.html'));
@@ -28,11 +33,11 @@ app.post('/getlipsync', async (req, res) => {
         const system = process.env.SYSTEM;
         let data;
         if(system == "windows"){    
-            data =await GenerateLipSyncWindows(audioBase64);
+            data = await GenerateLipSyncWindows(audioBase64);
         } else{
-            data =await GenerateLipSyncLinux(audioBase64);
+            data = await GenerateLipSyncLinux(audioBase64);
         }
-        console.log(data);
+        console.log("generated!");
         res.send(JSON.stringify(data));
     } catch (error) {
         res.status(500).json({ error: 'Failed to generate lip sync', details: error.message });

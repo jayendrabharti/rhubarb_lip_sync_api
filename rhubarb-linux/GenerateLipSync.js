@@ -34,7 +34,7 @@ export async function GenerateLipSyncLinux(audioBase64) {
 
     const tempId = randomUUID();
     const cwd = process.cwd();
-    const dirPath = path.join(cwd, 'rhubarb');
+    const dirPath = path.join(cwd, 'rhubarb-linux');
 
     const rhubarbPath = path.join(dirPath, 'rhubarb'); // Linux binary — no .exe
     const inputFilePath = path.join(dirPath, `temp-${tempId}.wav`);

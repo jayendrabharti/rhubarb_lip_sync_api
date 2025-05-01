@@ -32,7 +32,7 @@ export async function GenerateLipSyncWindows(audioBase64) {
 
     const tempId = randomUUID();
     const cwd = process.cwd();
-    const dirPath = path.join(cwd, 'rhubarb');
+    const dirPath = path.join(cwd, 'rhubarb-windows');
 
     const rhubarbPath = path.join(dirPath, 'rhubarb.exe');
     const inputFilePath = path.join(dirPath, `temp-${tempId}.wav`);
